@@ -43,18 +43,17 @@
   <!-- Auth Page -->
   <div class="auth-container" id="auth" style="display:none;">
     <h2 id="auth-title">Sign In</h2>
-    <input type="email" placeholder="Email" />
-    <input type="password" placeholder="Password" id="passwordField" />
-    <input type="text" placeholder="Full Name" id="nameField" style="display:none;" />
-    <button id="auth-btn">Login</button>
-    <p style="margin-top:15px; text-align:center; cursor:pointer; color:#0066ff; font-weight:bold;" id="switch-auth">Don't have an account? Sign Up</p>
-  </div>
-  <div class="auth-container" id="signup" style="display:none;">
-    <h2>Create Your Account</h2>
-    <input type="email" placeholder="Email" />
-    <input type="text" placeholder="Full Name" />
-    <input type="password" placeholder="Password" />
-    <button>Create Account</button>
+
+    <form id="auth-form">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="text" name="fullName" placeholder="Full Name" id="nameField" style="display:none;" />
+      <button type="submit" id="auth-btn">Login</button>
+    </form>
+
+    <p id="switch-auth" style="margin-top:15px; text-align:center; cursor:pointer; color:#0066ff; font-weight:bold;">
+      Don't have an account? Sign Up
+    </p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
