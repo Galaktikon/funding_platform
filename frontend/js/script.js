@@ -1,6 +1,6 @@
 const API_BASE_URL = "https://eml-funding-platform.onrender.com";
 
-// Supabase Configuration (public anon key is OK in frontend)
+// Supabase config
 const SUPABASE_URL = "https://dxrfvvkhestqjhhrqdnu.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4cmZ2dmtoZXN0cWpoaHJxZG51Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNDk5MzYsImV4cCI6MjA4MDYyNTkzNn0.GYfLDPkq00aqrLv_BKDffVmuWgqszrGcYg8k0JYIUik";
 
@@ -9,146 +9,156 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_ANON_KEY
 );
 
-/************************************************************
- * Main script
- ************************************************************/
+document.addEventListener("DOMContentLoaded", () => {
+  /* DOM elements */
+  const auth = document.getElementById("auth");
+  const openAuth = document.getElementById("open-auth");
+  const heroAuth = document.getElementById("hero-signup");
 
-document.addEventListener("DOMContentLoaded", async () => {
-    /* =======================================================
-    *  DOM ELEMENTS
-    * ======================================================= */
+  const authTitle = document.getElementById("auth-title");
+  const authBtn = document.getElementById("auth-btn");
+  const switchAuth = document.getElementById("switch-auth");
 
-    // High-level sections for auth gating
-    const auth = document.getElementById('auth');
-    const openAuth = document.getElementById('open-auth');
-    const heroAuth = document.getElementById('hero-signup');
+  const home = document.getElementById("home");
+  const homeNav = document.getElementById("home-nav");
 
-    const authTitle = document.getElementById('auth-title');
-    const authBtn = document.getElementById('auth-btn');
-    const switchAuth = document.getElementById('switch-auth');
-    const nameField = document.getElementById('nameField');
+  const nameField = document.getElementById("nameField");
+  const authForm = document.getElementById("auth-form");
 
-    const home = document.getElementById('home');
-    const homeNav = document.getElementById('home-nav');
+  let mode = "signin";
 
-    const priceNav = document.getElementById('price-nav');
+  /************************************************************
+   * Backend helper
+   ************************************************************/
+  async function getAuthHeaders(fileUpload = false) {
+    const { data, error } = await supabaseClient.auth.getSession();
+    if (error) throw new Error("Auth error: " + error.message);
 
-    let mode = 'signin';
+    const token = data?.session?.access_token;
+    if (!token) throw new Error("User is not logged in");
 
-    /**
-     * Get Authorization headers for talking to the FastAPI backend.
-     */
-    async function getAuthHeaders(f) {
-        const { data, error } = await supabaseClient.auth.getSession();
-        if (error) {
-            console.error("Error getting session:", error);
-            throw new Error("Could not get auth session");
-        }
-        const token = data?.session?.access_token;
-        if (!token) {
-            throw new Error("No active auth token; user is not logged in");
-        }
-        if (f) {
-            return {
-                Authorization: `Bearer ${token}`,
-            };
-        } else {
-            return {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            };
-        }
+    if (fileUpload) {
+      return { Authorization: `Bearer ${token}` };
     }
 
-    /**
-     * Generic helper to call your FastAPI backend with auth.
-     */
-    async function callBackend(endpoint, f, { method = "GET", body = null } = {}) {
-        const headers = await getAuthHeaders(f);
+    return { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
+  }
 
-        const opts = { method, headers };
+  async function callBackend(endpoint, fileUpload, { method = "GET", body = null } = {}) {
+    const headers = await getAuthHeaders(fileUpload);
+    const opts = { method, headers };
 
-        if (body instanceof FormData) {
-            // Remove content-type if getAuthHeaders added it
-            if (opts.headers["Content-Type"]) {
-                delete opts.headers["Content-Type"];
-            }
-            opts.body = body;  // send FormData as-is
-        } else if (body != null) {
-            opts.headers["Content-Type"] = "application/json";
-            opts.body = JSON.stringify(body);
-        }
-
-        const res = await fetch(`${API_BASE_URL}${endpoint}`, opts);
-
-        let json;
-        try {
-            json = await res.json();
-        } catch (e) {
-            const text = await res.text();
-            throw new Error(
-                `Backend ${endpoint} returned non-JSON. Status ${res.status}. Body: ${text}`
-            );
-        }
-
-        if (!res.ok) {
-            console.error(`Backend error on ${endpoint}:`, res.status, json);
-            throw new Error(
-                `Backend ${endpoint} failed with status ${res.status}: ${
-                json.detail || json.message || JSON.stringify(json)
-                }`
-            );
-        }
-
-        return { json, res };
+    if (body instanceof FormData) {
+      delete opts.headers["Content-Type"];
+      opts.body = body;
+    } else if (body) {
+      opts.body = JSON.stringify(body);
     }
 
-    openAuth.onclick = () => {
-        home.style.display = 'none';
-        auth.style.display = 'block';
-        window.scrollTo(0, auth.offsetTop - 20);
+    const res = await fetch(`${API_BASE_URL}${endpoint}`, opts);
+    const json = await res.json().catch(() => null);
+
+    if (!res.ok) {
+      console.error("Backend error:", res.status, json);
+      throw new Error(json?.detail || json?.message || "Request failed");
     }
 
-    homeNav.onclick = () => {
-        mode = 'signin';
-        updateAuthMode();
+    return json;
+  }
 
-        home.style.display = 'block';
-        auth.style.display = 'none';
+  /************************************************************
+   * Signup & Login handlers
+   ************************************************************/
+  async function signup(email, password, fullName) {
+    try {
+      return await callBackend("/auth/signup", false, {
+        method: "POST",
+        body: { email, password, fullName }
+      });
+    } catch (err) {
+      console.error("Signup failed:", err);
+      alert(err.message);
     }
+  }
 
-    heroAuth.onclick = () => {
-        mode = 'signup';
-        updateAuthMode();
-
-        home.style.display = 'none';
-        auth.style.display = 'block';
-        window.scrollTo(0, auth.offsetTop - 20);
+  async function login(email, password) {
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      return data;
+    } catch (err) {
+      console.error("Login failed:", err);
+      alert(err.message);
     }
+  }
 
-    function updateAuthMode() {
-        if (mode === 'signin') {
-            authTitle.textContent = 'Sign In';
-            authBtn.textContent = 'Login';
-            nameField.style.display = 'none';
-            switchAuth.textContent = "Don't have an account? Sign Up";
-        } else {
-            authTitle.textContent = 'Create Your Account';
-            authBtn.textContent = 'Create Account';
-            nameField.style.display = 'block';
-            switchAuth.textContent = "Already have an account? Sign In";
-        }
+  /************************************************************
+   * Mode switching
+   ************************************************************/
+  function updateAuthMode() {
+    if (mode === "signin") {
+      authTitle.textContent = "Sign In";
+      authBtn.textContent = "Login";
+      nameField.style.display = "none";
+      switchAuth.textContent = "Don't have an account? Sign Up";
+    } else {
+      authTitle.textContent = "Create Your Account";
+      authBtn.textContent = "Create Account";
+      nameField.style.display = "block";
+      switchAuth.textContent = "Already have an account? Sign In";
     }
+  }
 
-    switchAuth.onclick = () => {
-        mode = mode === 'signin' ? 'signup' : 'signin';
-        updateAuthMode();
-    }
-
+  switchAuth.onclick = () => {
+    mode = mode === "signin" ? "signup" : "signin";
     updateAuthMode();
-    
+  };
 
+  updateAuthMode();
+
+  /************************************************************
+   * Form Submission (MAIN PART)
+   ************************************************************/
+  authForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(authForm);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const fullName = formData.get("fullName");
+
+    if (mode === "signup") {
+      await signup(email, password, fullName);
+      alert("Account created! Please log in.");
+      mode = "signin";
+      updateAuthMode();
+    } else {
+      await login(email, password);
+      alert("Logged in successfully!");
+      home.style.display = "block";
+      auth.style.display = "none";
+    }
+  });
+
+  /************************************************************
+   * Navigation
+   ************************************************************/
+  openAuth.onclick = () => {
+    home.style.display = "none";
+    auth.style.display = "block";
+  };
+
+  heroAuth.onclick = () => {
+    mode = "signup";
+    updateAuthMode();
+    home.style.display = "none";
+    auth.style.display = "block";
+  };
+
+  homeNav.onclick = () => {
+    mode = "signin";
+    updateAuthMode();
+    home.style.display = "block";
+    auth.style.display = "none";
+  };
 });
-
-
-

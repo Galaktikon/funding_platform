@@ -13,10 +13,28 @@ class AuthRequest(BaseModel):
 
 @router.post("/signup")
 def signup(payload: AuthRequest):
+    print(payload)
     result = supabase.auth.sign_up({"email": payload.email, "password": payload.password})
 
     if result.get("error"):
         raise HTTPException(status_code=400, detail=str(result["error"]))
+    print(result)
+    try:
+        new_user = (
+            supabase
+                .table("users")
+                .insert({
+                    "id": result.user.id,
+                    "email": payload.email,
+                    "admin": "true",
+                    "name": payload.fullName,
+                })
+                .execute()
+        )
+        print(new_user)
+    except Exception as e:
+        print("Error creating user:", e)
+        raise HTTPException(status_code=500, detail="Failed to create user")
 
     return {"message": "Signup successful, check email for verification."}
 
