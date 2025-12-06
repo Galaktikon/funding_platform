@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const { data, error } = await supabaseClient.auth.getSession();
     if (error) throw new Error("Auth error: " + error.message);
 
-    const token = data?.session?.access_token;
+    var token = data?.session?.access_token;
     if (!token) {
         token = "guest-token";
         console.log("User is not logged in")
