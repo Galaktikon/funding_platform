@@ -35,7 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (error) throw new Error("Auth error: " + error.message);
 
     const token = data?.session?.access_token;
-    if (!token) throw new Error("User is not logged in");
+    if (!token) {
+        token = "guest-token";
+        console.log("User is not logged in")
+        //throw new Error("User is not logged in");
+    }
 
     if (fileUpload) {
       return { Authorization: `Bearer ${token}` };
