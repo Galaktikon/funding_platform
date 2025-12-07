@@ -4,41 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
-
   <link rel="stylesheet" href="../css/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
-  <!-- Top Navbar -->
+
+  <!-- TOP NAVBAR -->
   <header class="top-nav">
     <div class="logo">Funding Profile</div>
-
     <div class="nav-user">
       <span id="userNameDisplay"></span>
       <button id="logoutBtn" class="logout-btn">Logout</button>
     </div>
   </header>
 
-  <!-- Main Layout -->
+  <!-- DASHBOARD LAYOUT -->
   <div class="dashboard-layout">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <ul id="sidebarMenu">
-        <!-- Populated dynamically via JS based on role -->
-      </ul>
+      <ul id="sidebarMenu"></ul>
     </aside>
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
-      <!-- USER DASHBOARD (hidden for admins) -->
-      <section id="userDashboard" class="dashboard-section">
-
+      <!-- USER DASHBOARD -->
+      <section id="userDashboard" class="dashboard-section" style="display:none;">
         <h1>Welcome Back</h1>
-
         <div class="grid">
+
           <!-- Profile Card -->
           <div class="card profile-card">
             <h2>Your Profile</h2>
@@ -58,7 +53,7 @@
             <ul id="checklist"></ul>
           </div>
 
-          <!-- Document Upload -->
+          <!-- Documents -->
           <div class="card">
             <h2>Documents</h2>
             <input type="file" id="docUpload" />
@@ -72,23 +67,23 @@
             <ul id="notificationsList"></ul>
           </div>
 
-          <!-- Messages / Support -->
+          <!-- Messages -->
           <div class="card">
             <h2>Support Messages</h2>
             <div id="messagesBox"></div>
             <textarea id="newMessage" placeholder="Write a message..."></textarea>
             <button id="sendMessageBtn">Send</button>
           </div>
+
         </div>
       </section>
 
-      <!-- ADMIN DASHBOARD (hidden for users) -->
-      <section id="adminDashboard" class="dashboard-section">
-
+      <!-- ADMIN DASHBOARD -->
+      <section id="adminDashboard" class="dashboard-section" style="display:none;">
         <h1>Admin Panel</h1>
-
         <div class="grid">
-          <!-- User Accounts Table -->
+
+          <!-- Users Table -->
           <div class="card full-width">
             <h2>All Users</h2>
             <table class="table" id="usersTable">
@@ -115,6 +110,7 @@
             <h2>Documents</h2>
             <div id="adminDocumentList"></div>
           </div>
+
         </div>
       </section>
 

@@ -7,56 +7,69 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- HEADER / NAVBAR -->
   <header>
-    <div class="logo"><strong style="color:gold;">Funding Profile</strong></div>
+    <div class="logo">Funding Profile</div>
     <nav>
       <a href="#" id="home-nav">Home</a>
-      <a href="#" id="price-nav">Pricing</a>
-      <a href="#account" id="open-auth">
-        <span style="font-size:20px;">👤</span>
-      </a>
+      <a href="#importance">Importance</a>
+      <a href="#oppositions">FAQ</a>
+      <a href="#account" id="open-auth"><span style="font-size:20px;">👤</span></a>
     </nav>
   </header>
 
+  <!-- HOME PAGE -->
   <div class="home-container" id="home" style="display:block;">
+
+    <!-- HERO SECTION -->
     <section class="hero">
       <h1>Build a Funding-Ready Business Profile</h1>
       <p>Your business structure and documentation determine your access to capital. Start your journey with a guided platform built to help you secure funding and build long-term financial stability.</p>
       <a href="#" class="cta-btn" id="hero-signup">Get Started</a>
     </section>
 
+    <!-- IMPORTANCE SECTION -->
     <section class="section" id="importance">
       <h2>The Importance of Proper Funding & Structure</h2>
       <p>Most new business owners fail not because their ideas are weak, but because their financial and legal structure is not aligned with lender requirements. Our platform walks you step-by-step through everything lenders want to see before approving credit or investment.</p>
     </section>
 
+    <!-- OPPOSITIONS / FAQ SECTION -->
     <section class="section" id="oppositions">
       <h2>Common Oppositions & Clear Answers</h2>
       <div class="oppositions">
-        <div class="card"><strong>“I don’t think I need business credit.”</strong><br /><br />Business credit protects your personal finances and gives you access to significantly higher limits than personal credit alone.</div>
-        <div class="card"><strong>“I can’t get approved with my current situation.”</strong><br /><br />Most people simply lack the required documents. With proper structure, approvals become achievable.</div>
-        <div class="card"><strong>“I don’t have time to figure all this out.”</strong><br /><br />Our platform breaks everything into simple guided tasks you can complete at your own pace.</div>
+        <div class="card">
+          <strong>“I don’t think I need business credit.”</strong><br /><br />
+          Business credit protects your personal finances and gives you access to significantly higher limits than personal credit alone.
+        </div>
+        <div class="card">
+          <strong>“I can’t get approved with my current situation.”</strong><br /><br />
+          Most people simply lack the required documents. With proper structure, approvals become achievable.
+        </div>
+        <div class="card">
+          <strong>“I don’t have time to figure all this out.”</strong><br /><br />
+          Our platform breaks everything into simple guided tasks you can complete at your own pace.
+        </div>
       </div>
     </section>
+
   </div>
 
-  <!-- Auth Page -->
+  <!-- AUTH PAGE -->
   <div class="auth-container" id="auth" style="display:none;">
     <h2 id="auth-title">Sign In</h2>
-
     <form id="auth-form">
       <input type="email" name="email" placeholder="Email" required />
       <input type="password" name="password" placeholder="Password" required />
       <input type="text" name="fullName" placeholder="Full Name" id="nameField" style="display:none;" />
       <button type="submit" id="auth-btn">Login</button>
     </form>
-
-    <p id="switch-auth" style="margin-top:15px; text-align:center; cursor:pointer; color:#0066ff; font-weight:bold;">
+    <p id="switch-auth">
       Don't have an account? Sign Up
     </p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src='js/script.js'></script>
+  <script src="js/script.js"></script>
 </body>
 </html>

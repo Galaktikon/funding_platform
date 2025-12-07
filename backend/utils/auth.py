@@ -33,7 +33,7 @@ def signup(payload: AuthRequest):
                 .insert({
                     "id": result.user.id,
                     "email": payload.email,
-                    "is_admin": "true",
+                    "is_admin": "false",
                     "name": payload.fullName,
                 })
                 .execute()

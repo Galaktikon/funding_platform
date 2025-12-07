@@ -17,16 +17,17 @@ async function getUserRole() {
   try {
     const session = await getSession();
     if (!session) return null;
-    console.log(session);
+
     const res = await fetch(`${API_URL}/auth/me`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ access_token: session.access_token }),
     });
-    console.log(res)
+
     const json = await res.json();
     return json.role;
   } catch (err) {
+    console.error(err);
     return null;
   }
 }
@@ -38,7 +39,7 @@ async function initDashboard() {
   const role = await getUserRole();
 
   if (!role) {
-    //window.location.href = "../index.html";
+    window.location.href = "../index.html";
     return;
   }
 
@@ -62,21 +63,31 @@ function setupSidebar(role) {
   const menu = document.getElementById("sidebarMenu");
   menu.innerHTML = "";
 
-  if (role === "admin") {
-    menu.innerHTML = `
-      <li data-view="admin-users">Users</li>
-      <li data-view="admin-review">Review Applications</li>
-      <li data-view="admin-documents">Documents</li>
-    `;
-  } else {
-    menu.innerHTML = `
-      <li data-view="profile">Profile</li>
-      <li data-view="status">Application Status</li>
-      <li data-view="documents">Documents</li>
-      <li data-view="notifications">Notifications</li>
-      <li data-view="messages">Messages</li>
-    `;
-  }
+  const items = role === "true"
+    ? [
+        { name: "Users", view: "admin-users" },
+        { name: "Review Applications", view: "admin-review" },
+        { name: "Documents", view: "admin-documents" }
+      ]
+    : [
+        { name: "Profile", view: "profile" },
+        { name: "Application Status", view: "status" },
+        { name: "Documents", view: "documents" },
+        { name: "Notifications", view: "notifications" },
+        { name: "Messages", view: "messages" }
+      ];
+
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item.name;
+    li.dataset.view = item.view;
+    li.addEventListener("click", () => {
+      // Highlight active
+      menu.querySelectorAll("li").forEach(li => li.classList.remove("active"));
+      li.classList.add("active");
+    });
+    menu.appendChild(li);
+  });
 }
 
 /* -------------------------------------------
@@ -91,8 +102,9 @@ function loadUserUI() {
    Admin Dashboard UI
 ------------------------------------------- */
 function loadAdminUI() {
-  document.querySelector("#usersTable tbody").innerHTML =
-    "<tr><td colspan='4'>Loading users...</td></tr>";
+  const tbody = document.querySelector("#usersTable tbody");
+  tbody.innerHTML = "<tr><td colspan='4'>Loading users...</td></tr>";
+  // TODO: Fetch all users and populate table
 }
 
 /* LOGOUT */
