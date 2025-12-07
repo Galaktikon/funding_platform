@@ -38,7 +38,7 @@ async function initDashboard() {
   const role = await getUserRole();
 
   if (!role) {
-    window.location.href = "../index.html";
+    //window.location.href = "../index.html";
     return;
   }
 
