@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pricing — Funding Profile</title>
+  <link rel="stylesheet" href="../css/pricing.css" />
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Funding Profile</div>
+
+    <nav>
+      <span id="hamburger">☰</span>
+      <ul id="nav-links">
+        <li><a href="../index.html" id="home-nav">Home</a></li>
+        <li><a href="#" id="pricing-nav" class="active">Pricing</a></li>
+        <li><a href="#" id="open-auth"><span style="font-size:20px;">👤</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero hero-compact">
+    <div class="hero-inner">
+      <h1>Plans built to scale your funding readiness</h1>
+      <p class="sub">Simple pricing for founders and teams. Use Stripe to subscribe monthly or yearly — billing, SCA and checkout are managed securely by Stripe Checkout.</p>
+
+      <div class="billing-toggle">
+        <button class="toggle-btn" data-mode="monthly">Monthly</button>
+        <button class="toggle-btn active" data-mode="yearly">Yearly (save 20%)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING CARDS -->
+  <main class="section pricing-section">
+    <div class="pricing-grid">
+      <!-- BASIC -->
+      <article class="card pricing-card">
+        <div class="card-header">
+          <h3>Basic</h3>
+          <p class="muted">For solo founders getting started</p>
+        </div>
+
+        <div class="price-wrap">
+          <span class="price-amount" data-price-monthly="0" data-price-yearly="0">Free</span>
+          <span class="price-period"></span>
+        </div>
+
+        <ul class="features">
+          <li>Guided funding checklist</li>
+          <li>Document storage (limited)</li>
+          <li>Email support</li>
+        </ul>
+
+        <div class="card-footer">
+          <button class="btn btn-primary btn-choose" data-plan="basic" data-price-id-monthly="" data-price-id-yearly="">Get Started</button>
+        </div>
+      </article>
+
+      <!-- PRO -->
+      <article class="card pricing-card featured">
+        <div class="card-header">
+          <h3>Professional</h3>
+          <p class="muted">Most founders choose this</p>
+        </div>
+
+        <div class="price-wrap">
+          <span class="price-amount" data-price-monthly="29" data-price-yearly="290">$29</span>
+          <span class="price-period"> / month</span>
+        </div>
+
+        <ul class="features">
+          <li>Everything in Basic</li>
+          <li>Priority document reviews</li>
+          <li>Portfolio generation (PDF)</li>
+          <li>Phone support</li>
+        </ul>
+
+        <div class="card-footer">
+          <!-- Replace the data-price-id-* with real Stripe price IDs from your dashboard -->
+          <button class="btn btn-primary btn-choose" data-plan="pro"
+            data-price-id-monthly="price_XXXXX_PRO_MONTHLY"
+            data-price-id-yearly="price_XXXXX_PRO_YEARLY">Choose Professional</button>
+        </div>
+      </article>
+
+      <!-- TEAM -->
+      <article class="card pricing-card">
+        <div class="card-header">
+          <h3>Team</h3>
+          <p class="muted">For small teams and agencies</p>
+        </div>
+
+        <div class="price-wrap">
+          <span class="price-amount" data-price-monthly="99" data-price-yearly="990">$99</span>
+          <span class="price-period"> / month</span>
+        </div>
+
+        <ul class="features">
+          <li>All Pro features</li>
+          <li>Multi-user seats</li>
+          <li>Priority onboarding</li>
+          <li>Dedicated account manager</li>
+        </ul>
+
+        <div class="card-footer">
+          <button class="btn btn-outline btn-choose" data-plan="team"
+            data-price-id-monthly="price_XXXXX_TEAM_MONTHLY"
+            data-price-id-yearly="price_XXXXX_TEAM_YEARLY">Contact Sales</button>
+        </div>
+      </article>
+    </div>
+
+    <p class="note">All payments are processed securely by Stripe. Your card details never touch our servers when using Stripe Checkout.</p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <small>© <span id="year"></span> Funding Profile — All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script src="../js/pricing.js"></script>
+</body>
+</html>
