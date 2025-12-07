@@ -86,7 +86,7 @@ def get_me(payload: SessionPayload):
     print("Auth User: ", auth_user)
     
         # Next: lookup role in your public users table
-    response = supabase.table("users").select("*").eq("id", auth_user["id"]).single().execute()
+    response = supabase.table("users").select("*").eq("id", auth_user.id).single().execute()
     print("Response: ", response)
 
     if not response.data:
@@ -95,7 +95,7 @@ def get_me(payload: SessionPayload):
     user = response.data
     print("User: ", user)
     return {
-        "id": user["id"],
-        "email": user["email"],
-        "role": user["is_admin"]
+        "id": user.id,
+        "email": user.email,
+        "role": user.is_admin
     }
