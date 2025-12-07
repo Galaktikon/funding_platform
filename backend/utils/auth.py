@@ -89,7 +89,7 @@ def get_me(payload: SessionPayload):
         response = supabase.table("users").select("*").eq("id", auth_user["id"]).single().execute()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Supabase login error: {e}")
-    
+    print("Response: ", response)
     if not response.data:
         raise HTTPException(status_code=404, detail="User not found in public users table")
 
