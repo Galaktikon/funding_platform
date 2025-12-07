@@ -17,13 +17,13 @@ async function getUserRole() {
   try {
     const session = await getSession();
     if (!session) return null;
-
+    console.log(session);
     const res = await fetch(`${API_URL}/auth/me`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ access_token: session.access_token }),
     });
-
+    console.log(res)
     const json = await res.json();
     return json.role;
   } catch (err) {
