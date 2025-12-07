@@ -54,15 +54,16 @@ header nav {
   gap: 20px;
 }
 
-header nav a {
+header nav ul {
   display: flex;
   gap: 20px;
+  list-style: none;
   font-weight: 600;
   color: white;
   position: relative;
 }
 
-header nav a:hover::after {
+header nav ul li:hover::after {
   content: '';
   position: absolute;
   left: 0;
@@ -73,7 +74,7 @@ header nav a:hover::after {
 }
 
 @media (max-width: 768px) {
-  header nav a {
+  header nav ul {
     display: none;
     flex-direction: column;
     position: absolute;
@@ -87,6 +88,7 @@ header nav a:hover::after {
   #hamburger {
     display: block;
   }
+  nav ul.active { display: flex; }
 }
 
 /* HERO */
@@ -193,7 +195,15 @@ header nav a:hover::after {
 }
 
 .auth-container form {
-    width: 100%
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .auth-container h2 {
@@ -206,6 +216,7 @@ header nav a:hover::after {
 .auth-container input {
   width: 100%;
   padding: 14px;
+  margin: 12px 0;
   border: 1px solid #ccc;
   border-radius: 8px;
   outline: none;
