@@ -63,14 +63,23 @@ header nav ul {
   position: relative;
 }
 
-header nav ul li:hover::after {
+header nav ul li {
+    position: relative;
+}
+
+header nav ul li::after {
   content: '';
   position: absolute;
   left: 0;
   bottom: -4px;
-  width: 100%;
+  width: 0;
   height: 2px;
   background: var(--gold);
+  transition: width 0.3s ease;
+}
+
+header nav ul li:hover::after {
+    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -80,7 +89,7 @@ header nav ul li:hover::after {
     position: absolute;
     top: 70px;
     right: 20px;
-    background: white;
+    background: var(--maroon);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     padding: 20px;
     border-radius: 8px;
