@@ -157,13 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburger.innerHTML = "☰";
     document.querySelector("header").appendChild(hamburger);
 
-    const navLinks = document.querySelector("header nav a");
+    const navLinks = document.getElementById("nav-links");
     hamburger.onclick = () => {
-    if (navLinks.style.display === "flex") {
-        navLinks.style.display = "none";
-    } else {
-        navLinks.style.display = "flex";
-    }
+      navLinks.classList.toggle("active");
+
     };
 
   openAuth.onclick = () => {
