@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburger.innerHTML = "☰";
     document.querySelector("header").appendChild(hamburger);
 
-    const navLinks = document.querySelector("header nav ul");
+    const navLinks = document.querySelector("header nav a");
     hamburger.onclick = () => {
     if (navLinks.style.display === "flex") {
         navLinks.style.display = "none";
