@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error("Signup failed:", err);
       alert(err.message);
+      throw err;
     }
   }
 
@@ -93,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error("Login failed:", err);
       alert(err.message);
+      throw err;
     }
   }
 
