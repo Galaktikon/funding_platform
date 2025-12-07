@@ -37,6 +37,7 @@ async function getUserRole() {
 ------------------------------------------- */
 async function initDashboard() {
   const role = await getUserRole();
+  const overlay = document.getElementById("loadingOverlay");
 
   if (!role) {
     window.location.href = "../index.html";
@@ -54,6 +55,8 @@ async function initDashboard() {
   }
 
   setupSidebar(role);
+
+  overlay.style.display = "none";
 }
 
 /* -------------------------------------------
@@ -136,4 +139,46 @@ document.getElementById("logoutBtn").onclick = async () => {
 };
 
 /* INIT */
+
+// Create loading overlay
+const loadingOverlay = document.createElement("div");
+loadingOverlay.id = "loadingOverlay";
+loadingOverlay.style.cssText = `
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`;
+
+loadingOverlay.innerHTML = `
+  <div style="text-align:center;">
+    <p>Loading dashboard...</p>
+    <div style="
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #555;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    "></div>
+  </div>
+`;
+
+// Add spinner animation
+const styleEl = document.createElement("style");
+styleEl.innerHTML = `
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}`;
+document.head.appendChild(styleEl);
+
+// Attach overlay to body
+document.body.appendChild(loadingOverlay);
+
 initDashboard();
