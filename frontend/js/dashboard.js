@@ -35,20 +35,6 @@ async function getUserRole() {
 /* -------------------------------------------
    UI Init
 ------------------------------------------- */
-const hamburger = document.createElement("span");
-hamburger.id = "hamburger";
-hamburger.innerHTML = "☰";
-document.querySelector("header").appendChild(hamburger);
-
-const navLinks = document.querySelector("header nav ul");
-hamburger.onclick = () => {
-  if (navLinks.style.display === "flex") {
-    navLinks.style.display = "none";
-  } else {
-    navLinks.style.display = "flex";
-  }
-};
-
 async function initDashboard() {
   const role = await getUserRole();
 

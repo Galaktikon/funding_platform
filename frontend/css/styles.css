@@ -96,7 +96,6 @@ header nav a:hover::after {
   color: var(--black);
   text-align: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* subtle shadow */
-  border-radius: 10px;
 }
 
 
@@ -207,7 +206,6 @@ header nav a:hover::after {
 .auth-container input {
   width: 100%;
   padding: 14px;
-  margin: 12px 0;
   border: 1px solid #ccc;
   border-radius: 8px;
   outline: none;
