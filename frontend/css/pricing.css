@@ -25,7 +25,7 @@ nav{display:flex;align-items:center;gap:16px}
 /* Nav links */
 nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
 nav ul li{position:relative}
-nav ul li a{color:#fff;font-weight:600;padding:6px 8px;display:inline-block}
+nav ul li a{color:#fff;font-weight:600;padding:6px 8px;display:inline-block; text-decoration: none;}
 nav ul li::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:3px;background:var(--gold);transition:width .25s ease}
 nav ul li:hover::after{width:100%}
 nav ul li a.active{color:var(--gold)}
