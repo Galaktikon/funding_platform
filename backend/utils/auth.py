@@ -23,7 +23,7 @@ def signup(payload: AuthRequest):
             redirect_to='https://funding-platform-axee.onrender.com' 
         )                                 
     except Exception as e:
-        raise HTTPException(status_code=400, details=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
     print(result)
 
     if not result.user:
