@@ -14,7 +14,7 @@ class AuthRequest(BaseModel):
 
 @router.post("/signup")
 def signup(payload: AuthRequest):
-    print("Payload: " + payload)
+    print(payload)
     result = supabase.auth.sign_up({"email": payload.email, "password": payload.password})
 
     if result.get("error"):
