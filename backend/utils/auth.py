@@ -10,10 +10,11 @@ supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 class AuthRequest(BaseModel):
     email: str
     password: str
+    fullName: str | None = None
 
 @router.post("/signup")
 def signup(payload: AuthRequest):
-    print(payload)
+    print("Payload: " + payload)
     result = supabase.auth.sign_up({"email": payload.email, "password": payload.password})
 
     if result.get("error"):
