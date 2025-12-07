@@ -11,7 +11,7 @@ const supabaseClient = window.supabase.createClient(
 
 document.addEventListener("DOMContentLoaded", () => {
   /* DOM elements */
-  const auth = document.getElementById("auth");
+  const authContainer = document.getElementById("auth");
   const openAuth = document.getElementById("open-auth");
   const heroAuth = document.getElementById("hero-signup");
 
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const authBtn = document.getElementById("auth-btn");
   const switchAuth = document.getElementById("switch-auth");
 
-  const home = document.getElementById("home");
+  const homeContainer = document.getElementById("home");
   const homeNav = document.getElementById("home-nav");
 
   const nameField = document.getElementById("nameField");
@@ -133,15 +133,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = formData.get("password");
     const fullName = formData.get("fullName");
 
-    if (mode === "signup") {
-      await signup(email, password, fullName);
-      alert("Account created! Please log in.");
-      mode = "signin";
-      updateAuthMode();
-    } else {
-      await login(email, password);
-      alert("Logged in successfully!");
-      window.location.href = "../pages/dashboard.html"
+    try {
+        if (mode === "signup") {
+        await signup(email, password, fullName);
+        alert("Account created! Please log in.");
+        mode = "signin";
+        updateAuthMode();
+        } else {
+        await login(email, password);
+        alert("Logged in successfully!");
+        window.location.href = "../pages/dashboard.html"
+        }
+    } catch (err) {
+        console.error(err);
     }
   });
 
@@ -149,21 +153,21 @@ document.addEventListener("DOMContentLoaded", () => {
    * Navigation
    ************************************************************/
   openAuth.onclick = () => {
-    home.style.display = "none";
-    auth.style.display = "block";
+    homeContainer.style.display = "none";
+    authContainer.style.display = "block";
   };
 
   heroAuth.onclick = () => {
     mode = "signup";
     updateAuthMode();
-    home.style.display = "none";
-    auth.style.display = "block";
+    homeContainer.style.display = "none";
+    authContainer.style.display = "block";
   };
 
   homeNav.onclick = () => {
+    homeContainer.style.display = "block";
+    authContainer.style.display = "none";
     mode = "signin";
     updateAuthMode();
-    home.style.display = "block";
-    auth.style.display = "none";
   };
 });
