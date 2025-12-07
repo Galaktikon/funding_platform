@@ -95,7 +95,7 @@ def get_me(payload: SessionPayload):
     user = response.data
     print("User: ", user)
     return {
-        "id": user.id,
-        "email": user.email,
-        "role": user.is_admin
+        "id": user["id"],
+        "email": user["email"],
+        "role": user["is_admin"]
     }
