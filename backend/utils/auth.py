@@ -63,3 +63,34 @@ def signin(payload: AuthRequest):
         },
         "session": result.session
     }
+
+class SessionPayload(BaseModel):
+    access_token: str
+
+@router.post("/me")
+def get_me(payload: SessionPayload):
+    token = payload.access_token
+    if not token:
+        raise HTTPException(status_code=400, detail="Missing access token")
+
+    # Validate/verify token using supabase.auth.get_user()
+    user_response = supabase.auth.get_user(token)
+
+    if user_response.get("error"):
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+    auth_user = user_response.get("user")
+
+    # Next: lookup role in your public users table
+    response = supabase.table("users").select("*").eq("id", auth_user["id"]).single().execute()
+
+    if response.error:
+        raise HTTPException(status_code=404, detail="User not found in public users table")
+
+    user = response.data
+
+    return {
+        "id": user["id"],
+        "email": user["email"],
+        "role": user["is_admin"]
+    }
