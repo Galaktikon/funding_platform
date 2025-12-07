@@ -27,6 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mode = "signin";
 
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("showSignIn") === "true") {
+    homeContainer.style.display = "none";
+    authContainer.style.display = "block";
+  }
+
   /************************************************************
    * Backend helper
    ************************************************************/
