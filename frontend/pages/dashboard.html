@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <!-- Top Navbar -->
+  <header class="top-nav">
+    <div class="logo">Funding Profile</div>
+
+    <div class="nav-user">
+      <span id="userNameDisplay"></span>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <ul id="sidebarMenu">
+        <!-- Populated dynamically via JS based on role -->
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- USER DASHBOARD (hidden for admins) -->
+      <section id="userDashboard" class="dashboard-section">
+
+        <h1>Welcome Back</h1>
+
+        <div class="grid">
+          <!-- Profile Card -->
+          <div class="card profile-card">
+            <h2>Your Profile</h2>
+            <p>Email: <span id="profileEmail"></span></p>
+            <p>Full Name: <span id="profileName"></span></p>
+          </div>
+
+          <!-- Application Status -->
+          <div class="card">
+            <h2>Application Status</h2>
+            <div id="applicationStatus">Loading...</div>
+          </div>
+
+          <!-- Checklist -->
+          <div class="card">
+            <h2>Funding Readiness Checklist</h2>
+            <ul id="checklist"></ul>
+          </div>
+
+          <!-- Document Upload -->
+          <div class="card">
+            <h2>Documents</h2>
+            <input type="file" id="docUpload" />
+            <button id="uploadDocBtn">Upload Document</button>
+            <ul id="documentList"></ul>
+          </div>
+
+          <!-- Notifications -->
+          <div class="card">
+            <h2>Notifications</h2>
+            <ul id="notificationsList"></ul>
+          </div>
+
+          <!-- Messages / Support -->
+          <div class="card">
+            <h2>Support Messages</h2>
+            <div id="messagesBox"></div>
+            <textarea id="newMessage" placeholder="Write a message..."></textarea>
+            <button id="sendMessageBtn">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIN DASHBOARD (hidden for users) -->
+      <section id="adminDashboard" class="dashboard-section">
+
+        <h1>Admin Panel</h1>
+
+        <div class="grid">
+          <!-- User Accounts Table -->
+          <div class="card full-width">
+            <h2>All Users</h2>
+            <table class="table" id="usersTable">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <!-- Review Panel -->
+          <div class="card full-width">
+            <h2>Application Review</h2>
+            <div id="reviewContent">Select a user to review their application.</div>
+          </div>
+
+          <!-- Document Viewer -->
+          <div class="card full-width">
+            <h2>Documents</h2>
+            <div id="adminDocumentList"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

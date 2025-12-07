@@ -141,8 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       await login(email, password);
       alert("Logged in successfully!");
-      home.style.display = "block";
-      auth.style.display = "none";
+      window.location.href = "../pages/dashboard.html"
     }
   });
 
