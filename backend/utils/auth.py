@@ -16,10 +16,10 @@ class AuthRequest(BaseModel):
 def signup(payload: AuthRequest):
     print(payload)
     result = supabase.auth.sign_up({"email": payload.email, "password": payload.password})
-
+    print(result)
     if result.get("error"):
         raise HTTPException(status_code=400, detail=str(result["error"]))
-    print(result)
+    
     try:
         new_user = (
             supabase
