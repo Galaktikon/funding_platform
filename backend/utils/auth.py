@@ -15,10 +15,16 @@ class AuthRequest(BaseModel):
 @router.post("/signup")
 def signup(payload: AuthRequest):
     print(payload)
-    result = supabase.auth.sign_up({"email": payload.email, "password": payload.password})
+
+    try:
+        result = supabase.auth.sign_up({"email": payload.email, "password": payload.password})
+    except Exception as e:
+        raise HTTPException(status_code=400, details=str(e))
     print(result)
-    if result.error:
-        raise HTTPException(status_code=400, detail=str(result.error))
+
+    if not result.user:
+        raise HTTPException(status_code=400, detail="Signup failed: no user returned")
+
     
     try:
         new_user = (
@@ -32,7 +38,7 @@ def signup(payload: AuthRequest):
                 })
                 .execute()
         )
-        print(new_user)
+        print("User inserted into table:", new_user)
     except Exception as e:
         print("Error creating user:", e)
         raise HTTPException(status_code=500, detail="Failed to create user")
@@ -41,9 +47,19 @@ def signup(payload: AuthRequest):
 
 @router.post("/signin")
 def signin(payload: AuthRequest):
-    result = supabase.auth.sign_in_with_password({"email": payload.email, "password": payload.password})
+    try:
+        result = supabase.auth.sign_in_with_password({"email": payload.email, "password": payload.password})
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Supabase login error: {e}")
 
-    if result.error:
-        raise HTTPException(status_code=400, detail=str(result.error))
+    if not result.user:
+        raise HTTPException(status_code=400, detail="Login failed: invalid credentials")
 
-    return {"message": "Login successful", "session": result.session}
+    return {
+        "message": "Login successful",
+        "user": {
+            "id": result.user.id,
+            "email": result.user.email
+        },
+        "session": result.session
+    }
