@@ -41,8 +41,22 @@ header .logo {
   color: var(--gold);
 }
 
+/* Hamburger for small screens */
+#hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 header nav a {
-  margin-left: 25px;
+  display: flex;
+  gap: 20px;
   font-weight: 600;
   color: white;
   position: relative;
@@ -58,12 +72,33 @@ header nav a:hover::after {
   background: var(--gold);
 }
 
+@media (max-width: 768px) {
+  header nav a {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 8px;
+  }
+  #hamburger {
+    display: block;
+  }
+}
+
 /* HERO */
 .hero {
   padding: 100px 40px;
+  background: linear-gradient(135deg, #ffffff, #f8f8f8);
+  color: var(--black);
   text-align: center;
-  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* subtle shadow */
+  border-radius: 10px;
 }
+
 
 .hero h1 {
   font-size: 3rem;
@@ -153,7 +188,13 @@ header nav a:hover::after {
   padding: 40px;
   border-radius: 14px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-container form {
+    width: 100%
 }
 
 .auth-container h2 {
@@ -206,4 +247,11 @@ header nav a:hover::after {
 
 #switch-auth:hover {
   color: var(--gold);
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    margin: 40px 20px;
+    padding: 30px;
+  }
 }

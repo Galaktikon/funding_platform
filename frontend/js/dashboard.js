@@ -35,6 +35,20 @@ async function getUserRole() {
 /* -------------------------------------------
    UI Init
 ------------------------------------------- */
+const hamburger = document.createElement("span");
+hamburger.id = "hamburger";
+hamburger.innerHTML = "☰";
+document.querySelector("header").appendChild(hamburger);
+
+const navLinks = document.querySelector("header nav ul");
+hamburger.onclick = () => {
+  if (navLinks.style.display === "flex") {
+    navLinks.style.display = "none";
+  } else {
+    navLinks.style.display = "flex";
+  }
+};
+
 async function initDashboard() {
   const role = await getUserRole();
 
@@ -59,6 +73,28 @@ async function initDashboard() {
 /* -------------------------------------------
    Sidebar Build
 ------------------------------------------- */
+// Add toggle button to top nav
+const sidebarToggle = document.createElement("button");
+sidebarToggle.textContent = "☰";
+sidebarToggle.style.fontSize = "20px";
+sidebarToggle.classList.add("sidebar-toggle");
+document.querySelector(".top-nav").appendChild(sidebarToggle);
+
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.createElement("div");
+overlay.id = "sidebar-overlay";
+document.body.appendChild(overlay);
+
+sidebarToggle.onclick = () => {
+  sidebar.classList.toggle("active");
+  overlay.classList.toggle("active");
+};
+
+overlay.onclick = () => {
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+};
+
 function setupSidebar(role) {
   const menu = document.getElementById("sidebarMenu");
   menu.innerHTML = "";
