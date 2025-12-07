@@ -73,18 +73,24 @@ def get_me(payload: SessionPayload):
     if not token:
         raise HTTPException(status_code=400, detail="Missing access token")
 
-    # Validate/verify token using supabase.auth.get_user()
-    user_response = supabase.auth.get_user(token)
+    try:
+        # Validate/verify token using supabase.auth.get_user()
+        user_response = supabase.auth.get_user(token)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Supabase login error: {e}")
 
-    if user_response.get("error"):
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    if not user_response.user:
+        raise HTTPException(status_code=400, detail="Login failed: invalid credentials")
 
-    auth_user = user_response.get("user")
+    auth_user = user_response.user
 
-    # Next: lookup role in your public users table
-    response = supabase.table("users").select("*").eq("id", auth_user["id"]).single().execute()
-
-    if response.error:
+    try:
+        # Next: lookup role in your public users table
+        response = supabase.table("users").select("*").eq("id", auth_user["id"]).single().execute()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Supabase login error: {e}")
+    
+    if not response.data:
         raise HTTPException(status_code=404, detail="User not found in public users table")
 
     user = response.data
