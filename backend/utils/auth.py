@@ -17,7 +17,8 @@ def signup(payload: AuthRequest):
     print(payload)
 
     try:
-        result = supabase.auth.sign_up({"email": payload.email, "password": payload.password})
+        result = supabase.auth.sign_up({"email": payload.email, "password": payload.password},
+                                       {"redirectTo": 'https://funding-platform-axee.onrender.com'})
     except Exception as e:
         raise HTTPException(status_code=400, details=str(e))
     print(result)
