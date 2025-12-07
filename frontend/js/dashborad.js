@@ -19,7 +19,9 @@ async function getUserRole() {
     if (!session) return null;
 
     const res = await fetch(`${API_URL}/auth/me`, {
-      headers: { Authorization: `Bearer ${session.access_token}` }
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ access_token: session.access_token }),
     });
 
     const json = await res.json();
@@ -36,11 +38,11 @@ async function initDashboard() {
   const role = await getUserRole();
 
   if (!role) {
-    window.location.href = "login.html";
+    window.location.href = "../index.html";
     return;
   }
 
-  if (role === "admin") {
+  if (role === "true") {
     document.getElementById("adminDashboard").style.display = "block";
     document.getElementById("userDashboard").style.display = "none";
     loadAdminUI();
