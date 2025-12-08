@@ -144,9 +144,9 @@ async function getOnboardingRecord(userId) {
   try {
     const { data, error } = await supabaseClient
       .from("user_onboarding")
-      .select("current_slide,completed")
+      .select("current_slide, completed")
       .eq("user_id", userId)
-      .single();
+      .maybeSingle();
     if (error && error.code !== "PGRST116") {
       // PGRST116 = no rows? depends on PostgREST; just log
       console.warn("getOnboardingRecord warning:", error);
@@ -332,6 +332,7 @@ async function initDashboard() {
     const userId = session?.data?.session?.user?.id;
     if (userId) {
       const record = await getOnboardingRecord(userId);
+      print("Onborading Record: ", record)
       const currentSlide = record?.current_slide ?? 0;
       const completed = record?.completed ?? false;
       if (!completed) {
