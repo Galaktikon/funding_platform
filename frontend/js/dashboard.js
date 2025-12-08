@@ -359,7 +359,7 @@ async function initDashboard() {
   } else {
     document.getElementById("userDashboard").style.display = "block";
     document.getElementById("adminDashboard").style.display = "none";
-    loadUserUI(userID);
+    loadUserUI(userId);
   }
 
   setupSidebar(role);
