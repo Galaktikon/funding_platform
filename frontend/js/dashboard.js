@@ -457,10 +457,10 @@ async function loadUserUI(userId) {
 
     if (selectError) throw selectError
 
-    document.getElementById("welcomeName").textContent = existing.name;
-    document.getElementById("profileEmail").textContent = existing.email;
-    document.getElementById("profileNum").textContent = existing.phone;
-    document.getElementById("profileBiz").textContent = existing.biz_name;
+    document.getElementById("welcomeName").textContent = existing?.name ?? "User";
+    document.getElementById("profileEmail").textContent = existing?.email ?? "Loading...";
+    document.getElementById("profileNum").textContent = existing?.phone ?? "Loading...";
+    document.getElementById("profileBiz").textContent = existing?.biz_name ?? "Loading...";
   }catch (err) {
     console.error(err)
   }
