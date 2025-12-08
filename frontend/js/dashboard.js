@@ -252,11 +252,9 @@ function buildOnboardingModal() {
 }
 
 /* Main initOnboarding */
-async function initOnboarding(role, startIndex = 0) {
-  const session = await supabaseClient.auth.getSession();
-  const userId = session?.data?.session?.user?.id;
+async function initOnboarding(userId, role, startIndex = 0) {
   if (!userId) return;
-  console.log("User Id", userId)
+  console.log("User Id: ", userId)
 
   const isAdmin = role === "admin" || role === "true" || role === true;
   const slides = isAdmin ? adminSlides : userSlides;
@@ -365,12 +363,13 @@ async function initDashboard() {
     const userId = session?.data?.session?.user?.id;
     if (userId) {
       const record = await getOnboardingRecord(userId);
-      console.log("Onborading Record: ", record)
+      console.log("Onboarding Record: ", record)
       const currentSlide = record?.current_slide ?? 0;
       const completed = record?.completed ?? false;
+      console.log()
       if (!completed) {
         // Start onboarding at saved progress (currentSlide)
-        await initOnboarding(role, currentSlide);
+        await initOnboarding(userId, role, currentSlide);
       }
     }
   } catch (err) {
