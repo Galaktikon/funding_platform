@@ -47,7 +47,7 @@ const userSlides = [
             biz_name: bizName, 
             phone: phone
           })
-          .eq("user_id", userId);
+          .eq("id", userId);
         if (updateError) throw updateError;
         return { ok: true };
       } catch (err) {
