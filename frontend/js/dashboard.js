@@ -445,7 +445,7 @@ function setupSidebar(role) {
 async function loadUserUI(userId) {
   document.getElementById("welcomeName").textContent = "User";
   document.getElementById("profileEmail").textContent = "Loading...";
-  document.getElementById("profileNum").textContent = "Loading...";
+  document.getElementById("profilePhone").textContent = "Loading...";
   document.getElementById("profileBiz").textContent = "Loading...";
 
   try {
@@ -459,7 +459,7 @@ async function loadUserUI(userId) {
 
     document.getElementById("welcomeName").textContent = existing?.name ?? "User";
     document.getElementById("profileEmail").textContent = existing?.email ?? "Loading...";
-    document.getElementById("profileNum").textContent = existing?.phone ?? "Loading...";
+    document.getElementById("profilePhone").textContent = existing?.phone ?? "Loading...";
     document.getElementById("profileBiz").textContent = existing?.biz_name ?? "Loading...";
   }catch (err) {
     console.error(err)
