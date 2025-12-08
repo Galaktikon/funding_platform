@@ -256,6 +256,7 @@ async function initOnboarding(role, startIndex = 0) {
   const session = await supabaseClient.auth.getSession();
   const userId = session?.data?.session?.user?.id;
   if (!userId) return;
+  console.log("User Id", userId)
 
   const isAdmin = role === "admin" || role === "true" || role === true;
   const slides = isAdmin ? adminSlides : userSlides;
