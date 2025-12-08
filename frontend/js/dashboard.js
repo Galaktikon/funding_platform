@@ -48,7 +48,7 @@ const userSlides = [
             phone: phone
           })
           .eq("user_id", userId);
-
+        if (updateError) throw updateError;
         return { ok: true };
       } catch (err) {
         console.error("save profile error:", err);
