@@ -1,5 +1,5 @@
 const SUPABASE_URL = "https://dxrfvvkhestqjhhrqdnu.supabase.co";
-const SUPABASE_ANON = "YOUR_PUBLIC_KEY";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4cmZ2dmtoZXN0cWpoaHJxZG51Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwNDk5MzYsImV4cCI6MjA4MDYyNTkzNn0.GYfLDPkq00aqrLv_BKDffVmuWgqszrGcYg8k0JYIUik";
 
 const API_URL = "https://eml-funding-platform.onrender.com";
 
