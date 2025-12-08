@@ -23,7 +23,7 @@ const userSlides = [
     content: `
       <p>Please enter your basic profile info so we can personalize your experience.</p>
       <label class="onb-label">business name</label>
-      <input id="onb_fullname" class="onb-input" type="text" placeholder="Jane Doe LLC" />
+      <input id="onb_bizname" class="onb-input" type="text" placeholder="Jane Doe LLC" />
       <label class="onb-label">Phone (optional)</label>
       <input id="onb_phone" class="onb-input" type="tel" placeholder="(555) 555-5555" />
       <div class="onb-note">We will save these to your account profile as you proceed.</div>
