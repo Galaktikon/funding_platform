@@ -22,29 +22,32 @@ const userSlides = [
     title: "Tell Us About You",
     content: `
       <p>Please enter your basic profile info so we can personalize your experience.</p>
-      <label class="onb-label">Full name</label>
-      <input id="onb_fullname" class="onb-input" type="text" placeholder="Jane Doe" />
+      <label class="onb-label">business name</label>
+      <input id="onb_fullname" class="onb-input" type="text" placeholder="Jane Doe LLC" />
       <label class="onb-label">Phone (optional)</label>
       <input id="onb_phone" class="onb-input" type="tel" placeholder="(555) 555-5555" />
       <div class="onb-note">We will save these to your account profile as you proceed.</div>
     `,
     beforeNext: async () => {
       // save profile inputs
-      const fullName = document.getElementById("onb_fullname")?.value?.trim();
+      const bizName = document.getElementById("onb_bizname")?.value?.trim();
       const phone = document.getElementById("onb_phone")?.value?.trim();
-      if (!fullName) {
+      if (!bizName) {
         // warn user but still allow — optional change: require name
-        return { ok: false, message: "Please enter your full name to continue." };
+        return { ok: false, message: "Please enter your business name to continue." };
       }
       try {
         const session = await supabaseClient.auth.getSession();
         const userId = session?.data?.session?.user?.id;
         if (!userId) throw new Error("Not authenticated");
 
-        // Upsert to 'users' table (adapt to your actual table if different)
-        await supabaseClient
+        const { error: updateError } = await supabaseClient
           .from("users")
-          .upsert({ id: userId, name: fullName, phone: phone }, { onConflict: ["id"] });
+          .update({
+            biz_name: bizName, 
+            phone: phone
+          })
+          .eq("user_id", userId);
 
         return { ok: true };
       } catch (err) {
