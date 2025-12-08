@@ -220,3 +220,87 @@ button:hover {
   .grid { grid-template-columns: 1fr; }
   .sidebar { width: 180px; }
 }
+
+/* ---------- Onboarding modal (modern-luxury) ---------- */
+.onboarding-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background: rgba(0,0,0,0.45);
+  padding: 20px;
+}
+
+.onboarding-container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 760px;
+  border-radius: 14px;
+  padding: 26px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.16);
+  display: flex;
+  flex-direction: column;
+}
+
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.onboarding-header h2 {
+  margin: 0;
+  color: var(--maroon);
+  font-size: 1.3rem;
+}
+
+.onb-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: var(--maroon);
+  cursor: pointer;
+}
+
+.onboarding-content {
+  min-height: 180px;
+  margin: 8px 0 16px 0;
+  color: #222;
+}
+
+.onb-label { display:block; margin-top:10px; margin-bottom:6px; color:#333; font-weight:600; }
+.onb-input {
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:14px;
+  box-sizing:border-box;
+}
+
+.onb-note { margin-top:8px; color:#666; font-size:13px; }
+
+/* Footer */
+.onboarding-footer {
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.onb-btn { padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer; border:0; }
+.onb-primary { background: var(--gold); color: var(--black); box-shadow:0 8px 20px rgba(0,0,0,0.08); }
+.onb-secondary { background: transparent; color: var(--maroon); border: 1px solid #eee; }
+
+/* progress bar */
+.onb-progress { margin-top:18px; height:8px; background:#f2f2f2; border-radius:6px; overflow:hidden; }
+.progress-fill { height:100%; width:0%; background:var(--gold); transition: width 300ms ease; }
+
+/* Mobile */
+@media (max-width: 720px) {
+  .onboarding-container { padding:18px; max-width: 96%; }
+  .onboarding-content { min-height: 140px; }
+}
