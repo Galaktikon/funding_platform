@@ -160,9 +160,41 @@ async function getOnboardingRecord(userId) {
 
 async function upsertOnboardingRecord(userId, current_slide = 0, completed = false) {
   try {
-    await supabaseClient
+    const { data: existing, error: selectError } = await supabaseClient
       .from("user_onboarding")
-      .upsert({ user_id: userId, current_slide, completed }, { onConflict: ["user_id"] });
+      .select("*")
+      .eq("user_id", userId)
+      .single();
+
+    if (selectError && selectError.code !== "PGRST116") {
+      // PGRST116 = no rows found
+      throw selectError;
+    }
+
+    if (!existing) {
+      // INSERT
+      const { error: insertError } = await supabaseClient
+        .from("user_onboarding")
+        .insert({
+          user_id: userId,
+          current_slide,
+          completed,
+        });
+
+      if (insertError) throw insertError;
+    } else {
+      // UPDATE
+      const { error: updateError } = await supabaseClient
+        .from("user_onboarding")
+        .update({
+          current_slide,
+          completed,
+        })
+        .eq("user_id", userId);
+
+      if (updateError) throw updateError;
+    }
+
   } catch (err) {
     console.error("upsertOnboardingRecord error:", err);
   }
@@ -332,7 +364,7 @@ async function initDashboard() {
     const userId = session?.data?.session?.user?.id;
     if (userId) {
       const record = await getOnboardingRecord(userId);
-      print("Onborading Record: ", record)
+      console.log("Onborading Record: ", record)
       const currentSlide = record?.current_slide ?? 0;
       const completed = record?.completed ?? false;
       if (!completed) {
