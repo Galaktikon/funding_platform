@@ -323,7 +323,7 @@ async function initOnboarding(userId, role, startIndex = 0) {
       await upsertOnboardingRecord(userId, current, true);
       modal.style.display = "none";
       // optionally refresh profile UI after finishing
-      try { loadUserUI(); } catch(e){ /* ignore */ }
+      try { loadUserUI(userId); } catch(e){ /* ignore */ }
     }
   };
 
@@ -344,6 +344,9 @@ async function initDashboard() {
   const role = await getUserRole();
   const overlay = document.getElementById("loadingOverlay");
 
+  const session = await supabaseClient.auth.getSession();
+  const userId = session?.data?.session?.user?.id;
+
   if (!role) {
     window.location.href = "../index.html";
     return;
@@ -356,14 +359,12 @@ async function initDashboard() {
   } else {
     document.getElementById("userDashboard").style.display = "block";
     document.getElementById("adminDashboard").style.display = "none";
-    loadUserUI();
+    loadUserUI(userID);
   }
 
   setupSidebar(role);
 
   try {
-    const session = await supabaseClient.auth.getSession();
-    const userId = session?.data?.session?.user?.id;
     if (userId) {
       const record = await getOnboardingRecord(userId);
       console.log("Onboarding Record: ", record)
@@ -441,9 +442,28 @@ function setupSidebar(role) {
 /* -------------------------------------------
    User Dashboard UI
 ------------------------------------------- */
-function loadUserUI() {
+async function loadUserUI(userId) {
+  document.getElementById("welcomeName").textContent = "User";
   document.getElementById("profileEmail").textContent = "Loading...";
-  document.getElementById("profileName").textContent = "Loading...";
+  document.getElementById("profileNum").textContent = "Loading...";
+  document.getElementById("profileBiz").textContent = "Loading...";
+
+  try {
+    const { data: existing, error: selectError } = await supabaseClient
+      .from("users")
+      .select("*")
+      .eq("id", userId)
+      .single();
+
+    if (selectError) throw selectError
+
+    document.getElementById("welcomeName").textContent = existing.name;
+    document.getElementById("profileEmail").textContent = existing.email;
+    document.getElementById("profileNum").textContent = existing.phone;
+    document.getElementById("profileBiz").textContent = existing.biz_name;
+  }catch (err) {
+    console.error(err)
+  }
 }
 
 /* -------------------------------------------
